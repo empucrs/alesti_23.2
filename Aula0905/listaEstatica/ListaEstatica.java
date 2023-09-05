@@ -3,43 +3,74 @@
  */
 public class ListaEstatica {
 
-    boolean add(int value){
-        return false;
+    int base[];
+    int nElements;
+
+    public ListaEstatica() {
+        base = new int[10];
+        nElements = 0;
     }
 
-    boolean add(int value, int index){
-        return false;
-    }
-    int get(int index){
-        return -1;
-    }
-    void remove(int index){
-    }
-    
-    int set(int value, int index){
-        return -1;
-    }
-    void clear(){
+    public boolean add(int value){
+        if(nElements>=base.length)
+            grow();
+        base[nElements]=value;
+        nElements++;
+        return true;
     }
 
-    boolean contains(int value){
+    private void grow(){
+        int aux [] = new int [base.length*2];
+        for(int i=0; i<base.length; i++)
+            aux[i]=base[i];
+        base=aux;
+    }
+
+    public boolean add(int value, int index){
+        if( (index >=0) && (index<=nElements) ){
+            if(nElements>=base.length)
+                grow();
+            for(int i=nElements; i>index; i--)
+                base[i]=base[i-1];
+            base[index]=value;
+            nElements++;
+            return true;
+        }        
         return false;
     }
     
-    int indexOf(int value){
+    public int get(int index){
         return -1;
     }
     
-    boolean isEmpty(){
+    public void remove(int index){
+    }
+    
+    public int set(int value, int index){
+        return -1;
+    }
+    
+    public void clear(){
+    }
+
+    public boolean contains(int value){
         return false;
     }
-    int lastIndexOf(int value){
+    
+    public int indexOf(int value){
         return -1;
     }
     
-    int size(){
+    public boolean isEmpty(){
+        return false;
+    }
+    
+    public int lastIndexOf(int value){
+        return -1;
+    }
+    
+    public int size(){
         return 0;
     }
-
 
 }
