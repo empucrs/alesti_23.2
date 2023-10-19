@@ -20,6 +20,8 @@ public class ArvoreGenerica {
             return false;
         }
         public Node getSubtree(int i){
+            if(i>=0 && i<subtrees.size())
+                return subtrees.get(i);
             return null;
         }
         public int getSubtreeSize(){
@@ -40,6 +42,22 @@ public class ArvoreGenerica {
         root=null;
     }
 
+    private Node findNode(Node ref, Integer value){
+        if(ref!=null){
+            if(ref.value==value)
+                return ref;
+            else{
+                Node aux = null;
+                for(int i=0; i< ref.getSubtreeSize(); i++){
+                    aux=findNode(ref.getSubtree(i), value);
+                    if(aux!=null) return aux;
+                }                                
+            }
+        }
+
+        return null;
+    }
+
     public boolean add(Integer e, Integer father){
         if(father==null){
             if(nElements==0){
@@ -48,23 +66,35 @@ public class ArvoreGenerica {
             }
         }
         else{
-            // investigar se o pai existe
-            if(father==root.value){
+            Node aux = findNode(root, father);
+            if(aux!=null){
+                System.out.println("Achou o pai");
             // adicionar o e como filho de father
-                root.addSubtree(new Node(e));
+                aux.addSubtree(new Node(e));
                 nElements++;
                 return true;                
             }
+            System.out.println("NÃO Achou o pai");
         }
         return false;      
     }
 
+    private void print(Node ref){
+        if(ref.father==null)
+            System.out.print("("+ref.value+"- RAIZ), ");
+        else
+            System.out.print("("+ref.value+"-"+ref.father.value+"), ");
+
+        for(Node aux: ref.subtrees)
+            print(aux);
+    }
+    public void print(){
+        print(root);
+        System.out.println();
+    }
+
     public String toString(){
-        if(root==null)
-            return "[árvore vazia]";
-        else{
-            return "root: " + root.value + " ("+root.subtrees.size()+") -> " + root.subtrees;
-        }
+        return "[árvore vazia]";
     }
 
     public Integer getRoot(){        
