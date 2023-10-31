@@ -12,5 +12,10 @@ public class App {
         System.out.println(ab.positionsCentral());
 
         System.out.println(ab);
+        System.out.println("Arvore é completa? "+ab.isComplete());
+
+        ab.addLeft(1,7);
+        System.out.println(ab);
+        System.out.println("Arvore é completa? "+ab.isComplete());
     }
 }

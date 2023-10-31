@@ -227,13 +227,13 @@ public class ArvoreBinaria {
         System.out.println();
     }
 
-    private void myDump(Node ref, List<String> result){
+    private void myDump(Node ref, StringBuilder result){
         if(ref.left!=null){
-            result.add("  "+ref.element+" -> "+ ref.left.element+";\n");
+            result.append("  "+ref.element+" -> "+ ref.left.element+";\n");
             myDump(ref.left, result);
         }
         if(ref.right!=null){
-            result.add("  "+ref.element+" -> "+ ref.right.element+";\n");
+            result.append("  "+ref.element+" -> "+ ref.right.element+";\n");
             myDump(ref.right, result);
         }        
     }
@@ -243,15 +243,37 @@ public class ArvoreBinaria {
             return "[árvore vazia]";
         }
         else{
-            List<String> resultado = new ArrayList<>();
-            resultado.add("digraph G {\n");
-            myDump(root, resultado);
-            resultado.add("}\n");
-            String aux="";
-            for(String s: resultado)
-                aux += s;
-            return aux;
+            StringBuilder sb = new StringBuilder();
+            sb.append("digraph G {\n");
+            myDump(root, sb);
+            sb.append("}\n");
+            return sb.toString();
         }
+    }
+
+    private boolean isComplete(Node refNode){
+        if(
+            ((refNode.left!=null) && (refNode.right==null)) ||
+            ((refNode.left==null) && (refNode.right!=null))
+        )
+            return false;
+
+        boolean result=true;
+
+        if(refNode.left!=null)
+            result&=isComplete(refNode.left);
+        if(refNode.right!=null)
+            result&=isComplete(refNode.right);
+
+        return result;
+
+    }
+
+    public boolean isComplete(){
+        if(root==null)
+            return false;
+
+        return isComplete(root);
     }
 
 
